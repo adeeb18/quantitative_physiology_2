@@ -31,26 +31,90 @@ r = .025
 
 # Sin of angle for vessel
 # "Anatomy of the Aorta" by R. Shane Tubbs, Marios Loukas, and Mohammadali M. Shoja, published in the Journal of Cardiovascular Disease Research in 2013.
-sintheta = math.sin(math.radians(45))
+sintheta = math.sin(math.radians(-45))
 
 #length of aorta (m)
 # "Atlas of Human Anatomy" by Frank H. Netter
 l = .3
 
 #Variables
+
 # acceleration due to gravity (m/s^2)
 g_start =0
 g_step =.01
-g_stop = 10
+g_stop = 9.8*4.5
 
 g=np.arange(g_start, g_stop, g_step)
 
 #Shear Stress
 tau = m * np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2 * mu)) ** n
 
+tau_nog =  m * np.abs(((p/l)) * (r / 2 * mu)) ** n
+tau_nog = np.repeat(tau_nog, 4410)
 #Plotting
 fig, ax = plt.subplots()
+plt.xlabel("Acceleration due to gravity (m/s^2)")
+plt.ylabel("Shear Stress (Pa)")
+plt.title("Variable radius")
+ax.plot(g, tau, linewidth=2.0, color='r')
+ax.plot(g, tau_nog, linewidth=2.0, color='g')
 
-ax.plot(g, tau, linewidth=2.0)
+plt.show()
 
+
+# Coronary arteries length (m)
+l = .030 
+
+# Variable radius coronary arteries (m)
+r_start = .001
+r_step =.0001
+r_stop = .003
+
+r_variable=np.arange(r_start, r_stop, r_step)
+
+# g values
+g_earth = 9.8
+g_takeoff = 9.8 * 4
+g_space = 9.8/1000000
+
+tau_earth = m * np.abs(((p/l) - np.multiply(np.multiply(g_earth,rho), sintheta)) * (r_variable / 2 * mu)) ** n
+tau_takeoff = m * np.abs(((p/l) - np.multiply(np.multiply(g_takeoff,rho), sintheta)) * (r_variable / 2 * mu)) ** n
+tau_space = m * np.abs(((p/l) - np.multiply(np.multiply(g_space,rho), sintheta)) * (r_variable / 2 * mu)) ** n
+
+fig, ax = plt.subplots()
+plt.xlabel("Radius (m)")
+plt.ylabel("Shear Stress (dyne)")
+plt.title("Variable radius")
+    
+ax.plot(r_variable, tau_earth, linewidth=2.0, color= 'r', label='earth, g=9.8')
+ax.plot(r_variable, tau_takeoff, linewidth=2.0, color='g', label='takeoff, g=9.8 * 4')
+ax.plot(r_variable, tau_space, linewidth=2.0, color='b', label='space, g=9.8/1000000')
+plt.legend()
+
+plt.show()
+
+# Variable angles coronary arteries (m)
+theta_start = -90
+theta_step = 1
+theta_stop = 90
+
+theta_variable=np.arange(theta_start, theta_stop, theta_step)
+
+sintheta_variable = np.sin(theta_variable * np.pi/180.)
+
+
+tau_earth = m * np.abs(((p/l) - np.multiply(np.multiply(g_earth,rho), sintheta_variable)) * (r / 2 * mu)) ** n
+tau_takeoff = m * np.abs(((p/l) - np.multiply(np.multiply(g_takeoff,rho), sintheta_variable)) * (r / 2 * mu)) ** n
+tau_space = m * np.abs(((p/l) - np.multiply(np.multiply(g_space,rho), sintheta_variable)) * (r / 2 * mu)) ** n
+
+
+fig, ax = plt.subplots()
+plt.xlabel("Angle with horizontal(degrees)")
+plt.ylabel("Shear Stress (dyne)")
+plt.title("Variable radius")
+    
+ax.plot(theta_variable, tau_earth, linewidth=2.0, color= 'r', label='earth, ge=9.8')
+ax.plot(theta_variable, tau_takeoff, linewidth=2.0, color='g', label='takeoff, g=4*ge')
+ax.plot(theta_variable, tau_space, linewidth=2.0, color='b', label='space, g=ge/100000')
+plt.legend()
 plt.show()
