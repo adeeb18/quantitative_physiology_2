@@ -1,4 +1,3 @@
-
 import numpy as np
 import matplotlib.pyplot as plt
 import math
@@ -6,12 +5,10 @@ import math
 #Constants
 
 # m constant for blood as a power law fluid (Pa*s^n / m^2)
-# "Rheological properties of blood" by D.A. Fedosov and G.E. Karniadakis, published in Annual Review of Fluid Mechanics in 2014
-m = 0.04 
+m = 0.01615
 
 # n constant for blood as a power law fluid (no unit)
-# "Rheological properties of blood" by D.A. Fedosov and G.E. Karniadakis, published in Annual Review of Fluid Mechanics in 2014
-n = .5
+n = .708
 
 # density of blood in kg/m^3
 # Cutnell, John & Johnson, Kenneth. Physics, Fourth Edition. Wiley, 1998: 308.
@@ -55,6 +52,8 @@ tau_BP = (np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)))
 
 tau_nog =  m * np.abs(((p/l)) * (r / 2 * mu)) ** n
 tau_nog = np.repeat(tau_nog, 4410)
+
+
 #Plotting
 fig, ax = plt.subplots()
 plt.xlabel("Acceleration due to gravity (m/s^2)")
