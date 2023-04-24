@@ -25,17 +25,15 @@ p = 16000
 # "Reference Values for Dynamic Viscosity and Density of Human Blood Plasma" by Hans-Ulrich Neue, published in Clinical Chemistry and Laboratory Medicine in 2000. This study reported an average viscosity of 3.5 mPa.s at a shear rate 
 mu = .0035 
 
-# Radius of aorta (m)
-# "Aortic Anatomy Revisited: A Pictorial Essay" by Mahmoud Ahmed and Frank Corl, published in Current Problems in Diagnostic Radiology in 2018,
-r = .025
+# Radius of coronary arteries (m)
+r = .0015
 
 # Sin of angle for vessel
 # "Anatomy of the Aorta" by R. Shane Tubbs, Marios Loukas, and Mohammadali M. Shoja, published in the Journal of Cardiovascular Disease Research in 2013.
 sintheta = math.sin(math.radians(-45))
 
-#length of aorta (m)
-# "Atlas of Human Anatomy" by Frank H. Netter
-l = .3
+# length of coronary arteries (m)
+l = .03
 
 #Variables
 
