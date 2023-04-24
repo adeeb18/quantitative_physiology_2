@@ -35,6 +35,10 @@ sintheta = math.sin(math.radians(-45))
 # length of coronary arteries (m)
 l = .03
 
+#Yield Stress (Pa)
+# "Determination of the blood viscosity and yield stress with a pressure-scanning capillary hemorheometer using constitutive models" 
+ys = 0.0144
+
 #Variables
 
 # acceleration due to gravity (m/s^2)
@@ -45,7 +49,9 @@ g_stop = 9.8*4.5
 g=np.arange(g_start, g_stop, g_step)
 
 #Shear Stress
-tau = m * np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2 * mu)) ** n
+tau_PL = (m * np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n) # Power Law Shear Stress
+tau_NW = (np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)))/500 # Newtonian Shear Stress
+tau_BP = (np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)))/500 + ys # Bingham Plastic Shear Stress
 
 tau_nog =  m * np.abs(((p/l)) * (r / 2 * mu)) ** n
 tau_nog = np.repeat(tau_nog, 4410)
@@ -54,8 +60,10 @@ fig, ax = plt.subplots()
 plt.xlabel("Acceleration due to gravity (m/s^2)")
 plt.ylabel("Shear Stress (Pa)")
 plt.title("Variable radius")
-ax.plot(g, tau, linewidth=2.0, color='r')
-ax.plot(g, tau_nog, linewidth=2.0, color='g')
+ax.plot(g, tau_PL, linewidth=2.0, color='r')
+ax.plot(g, tau_NW, linewidth=2.0, color='g')
+ax.plot(g, tau_BP, linewidth=2.0, color='b')
+ax.plot(g, tau_nog, linewidth=2.0, color='y')
 
 plt.show()
 
