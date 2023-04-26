@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.gridspec import GridSpec
 import math
 
 #Constants
@@ -55,24 +56,26 @@ tau_PL = (m * np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 
 tau_NW = (np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)))/280 # Newtonian Shear Stress
 #tau_BP = (np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2))) + ys # Bingham Plastic Shear Stress
 
-tau_nog =  m * np.abs(((p/l)) * (r / 2 * mu)) ** n
-tau_nog = np.repeat(tau_nog, 4410)
+# tau_nog =  m * np.abs(((p/l)) * (r / 2 * mu)) ** n
+# tau_nog = np.repeat(tau_nog, 4410)
 
 
 #Plotting
-fig, ax = plt.subplots()
+plt.figure()
+gs = GridSpec(nrows=2, ncols=2)
+plt.subplot(gs[0,0])
 plt.xlabel("Acceleration due to Gravity (m/s^2)")
 plt.ylabel("Wall Shear Stress (Pa)")
 plt.title("Gravity-Induced Changes in Wall Shear Stress in Generalized Coronary Artery")
-ax.plot(g, tau_PL, linewidth=2.0, color='r', label='Power Law Fluid (Shear Thinning)')
-ax.plot(g, tau_NW, linewidth=2.0, color='b', label='Newtonian Fluid')
-ax.axhline(y = 0.60, color='k', linestyle='--')
-ax.grid()
-#ax.plot(g, tau_BP, linewidth=2.0, color='b', label='Bingham Plastic Fluid')
-#ax.plot(g, tau_nog, linewidth=2.0, color='y')
-ax.legend(loc='lower right')
+plt.plot(g, tau_PL, linewidth=2.0, color='r', label='Power Law Fluid (Shear Thinning)')
+plt.plot(g, tau_NW, linewidth=2.0, color='b', label='Newtonian Fluid')
+plt.axhline(y = 0.60, color='k', linestyle='--')
+plt.grid()
+#plt.plot(g, tau_BP, linewidth=2.0, color='b', label='Bingham Plastic Fluid')
+#plt.plot(g, tau_nog, linewidth=2.0, color='y')
+plt.legend(loc='lower right')
 
-plt.show()
+#plt.show()
 
 # Coronary arteries length (m)
 l = .030 
@@ -93,7 +96,8 @@ tau_earth = m * np.abs(((p/l) - np.multiply(np.multiply(g_earth,rho), sintheta))
 tau_takeoff = m * np.abs(((p/l) - np.multiply(np.multiply(g_takeoff,rho), sintheta)) * (r_variable / 2 * mu)) ** n
 tau_space = m * np.abs(((p/l) - np.multiply(np.multiply(g_space,rho), sintheta)) * (r_variable / 2 * mu)) ** n
 
-fig, ax = plt.subplots()
+#plt.figure()
+plt.subplot(gs[1,:])
 plt.xlabel("Vessel Radius (mm)")
 plt.ylabel("Wall Shear Stress (Pa)")
 plt.title("Gravity-Induced Changes in Wall Shear Stress along Vessel Radius in Shear-Thinning Blood Model")
@@ -105,19 +109,19 @@ for i in range(4):
     grav_label = "g = " + str(grav_value) + " m/s^2"
     colu = colors[i]
     testPL = m * np.abs(((p/l) - np.multiply(np.multiply(grav_value,rho), sintheta)) * ((r_array /1000)/ 2)) ** n
-    ax.plot(r_array, testPL, linewidth=2.0, color=colu, label=grav_label)
+    plt.plot(r_array, testPL, linewidth=2.0, color=colu, label=grav_label)
 
-ax.axhline(y = 0.60, color='k', linestyle='--')
-ax.grid()
-#ax.set_xlim(2.3,2.5)
-#ax.set_ylim(0.7,0.8)
-ax.legend()
-# ax.plot(r_variable, tau_earth, linewidth=2.0, color= 'r', label='earth, g=9.8')
-# ax.plot(r_variable, tau_takeoff, linewidth=2.0, color='g', label='takeoff, g=9.8 * 4')
-# ax.plot(r_variable, tau_space, linewidth=2.0, color='b', label='space, g=9.8/1000000')
+plt.axhline(y = 0.60, color='k', linestyle='--')
+plt.grid()
+#plt.set_xlim(2.3,2.5)
+#plt.set_ylim(0.7,0.8)
+plt.legend()
+# plt.plot(r_variable, tau_earth, linewidth=2.0, color= 'r', label='earth, g=9.8')
+# plt.plot(r_variable, tau_takeoff, linewidth=2.0, color='g', label='takeoff, g=9.8 * 4')
+# plt.plot(r_variable, tau_space, linewidth=2.0, color='b', label='space, g=9.8/1000000')
 # plt.legend()
 
-plt.show()
+#plt.show()
 
 # Variable angles coronary arteries (m)
 theta_start = -90
@@ -134,7 +138,8 @@ sintheta_variable = np.sin(theta_variable * np.pi/180.)
 # tau_space = m * np.abs(((p/l) - np.multiply(np.multiply(g_space,rho), sintheta_variable)) * (r / 2 * mu)) ** n
 
 
-fig, ax = plt.subplots()
+#plt.figure()
+plt.subplot(gs[0,1])
 plt.xlabel("Angle \u03F4 (Redians)")
 plt.ylabel("Wall Shear Stress (Pa)")
 plt.title("Gravity-Induced Changes in Wall Shear Stress at Different Angles in Shear-Thinning Blood Model")
@@ -147,12 +152,12 @@ for i in range(4):
     grav_label = "g = " + str(grav_value) + " m/s^2"
     colu = colors[i]
     testPL = m * np.abs(((p/l) - np.multiply(np.multiply(grav_value,rho), sintheta_variable)) * (r_const/ 2)) ** n
-    ax.plot(sintheta_variable, testPL, linewidth=2.0, color=colu, label=grav_label)
+    plt.plot(sintheta_variable, testPL, linewidth=2.0, color=colu, label=grav_label)
 
-ax.axhline(y = 0.60, color='k', linestyle='--')
-ax.grid()
-# ax.plot(theta_variable, tau_earth, linewidth=2.0, color= 'r', label='earth, ge=9.8')
-# ax.plot(theta_variable, tau_takeoff, linewidth=2.0, color='g', label='takeoff, g=4*ge')
-# ax.plot(theta_variable, tau_space, linewidth=2.0, color='b', label='space, g=ge/100000')
+plt.axhline(y = 0.60, color='k', linestyle='--')
+plt.grid()
+# plt.plot(theta_variable, tau_earth, linewidth=2.0, color= 'r', label='earth, ge=9.8')
+# plt.plot(theta_variable, tau_takeoff, linewidth=2.0, color='g', label='takeoff, g=4*ge')
+# plt.plot(theta_variable, tau_space, linewidth=2.0, color='b', label='space, g=ge/100000')
 plt.legend(loc = 'lower right')
 plt.show()
