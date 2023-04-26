@@ -4,6 +4,7 @@ import math
 
 #Constants
 plt.rcParams["font.family"] = "Times New Roman"
+# plt.rcParams.update({'font.size': 16})
 
 # m constant for blood as a power law fluid (Pa*s^n / m^2)
 m = 0.01615
@@ -42,7 +43,7 @@ ys = 0.0144
 # acceleration due to gravity (m/s^2)
 g_start =0
 g_step =.01
-g_stop = 9.8*4.5
+g_stop = 10
 
 g=np.arange(g_start, g_stop, g_step)
 
@@ -51,20 +52,23 @@ tau_PL = (m * np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 
 tau_NW = (np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)))/500 # Newtonian Shear Stress
 tau_BP = (np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)))/500 + ys # Bingham Plastic Shear Stress
 
-tau_nog =  m * np.abs(((p/l)) * (r / 2 * mu)) ** n
-tau_nog = np.repeat(tau_nog, 4410)
+tau_nog =  m * np.abs(((p/l)) * (r / 2 )) ** n
+tau_nog = np.repeat(tau_nog, 1000)
 
+lowbound_athero = np.repeat(0.6, 1000)
 
 #Plotting
 fig, ax = plt.subplots()
-plt.xlabel("Acceleration due to gravity (m/s^2)")
-plt.ylabel("Shear Stress (Pa)")
-plt.title("Gravitational effect on shear stress")
-ax.plot(g, tau_PL, linewidth=2.0, color='r', label='Power Law Fluid (Shear Thinning)')
-ax.plot(g, tau_NW, linewidth=2.0, color='g', label='Newtonian Fluid')
-ax.plot(g, tau_BP, linewidth=2.0, color='b', label='Bingham Plastic Fluid')
-ax.plot(g, tau_nog, linewidth=2.0, color='y')
-ax.legend()
+plt.xlabel("Acceleration due to Gravity (m/s^2)")
+plt.ylabel("Vessel Wall Shear Stress (Pa)")
+plt.title("Gravity-Induced Changes in Wall Shear Stress in Generalized Coronary Artery")
+ax.plot(g, tau_PL, linewidth=2.0, color='r', label='Shear-Thinning Fluid (with Gravity Component)')
+ax.plot(g, tau_NW, linewidth=2.0, color='g', label='Newtonian Fluid (with Gravity Component)')
+# ax.plot(g, tau_BP, linewidth=2.0, color='b', label='Bingham Plastic Fluid')
+ax.plot(g, tau_nog, linewidth=2.0, color='y', label='Shear-Thinning Fluid  (no Gravity Component)')
+ax.plot(g, lowbound_athero, linewidth=1.0, linestyle='dashed', color='k', label='Upper Boundary for Atherosclerosis development')
+
+ax.legend(loc='center right')
 
 plt.show()
 
