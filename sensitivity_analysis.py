@@ -17,7 +17,7 @@ rho = 1060
 
 # Pressure (Pa)
 # "Cardiovascular Physiology Concepts" by Richard E. Klabunde,"
-p = 16000
+p = 10000
 
 # Viscocity (Pa)
 # "Reference Values for Dynamic Viscosity and Density of Human Blood Plasma" by Hans-Ulrich Neue, published in Clinical Chemistry and Laboratory Medicine in 2000. This study reported an average viscosity of 3.5 mPa.s at a shear rate 
@@ -42,13 +42,12 @@ ys = 0.0144
 # acceleration due to Gravity (m/s^2)
 g_start =0
 g_step =.01
-g_stop = 9.8*4.5
+g_stop = 10
 g=np.arange(g_start, g_stop, g_step)
 
 
 plt.rcParams["font.family"] = "Times New Roman"
 plt.rcParams.update({'font.size': 16})
-
 
 
 '''
@@ -86,6 +85,7 @@ ax.plot(g, taum3, linewidth=2.0, color='k', label='3.25mₒ')
 ax.plot(g, taum4, linewidth=2.0, color='k', label='0.25mₒ')
 
 labelLines(ax.get_lines(), zorder=2.5)
+plt.grid()
 
 plt.show()
 
@@ -126,6 +126,7 @@ ax.plot(g, taun3, linewidth=2.0, color='k', label='3.25nₒ')
 ax.plot(g, taun4, linewidth=2.0, color='k', label='0.25nₒ')
 
 labelLines(ax.get_lines(), zorder=2.5)
+plt.grid()
 
 plt.show()
 
@@ -149,6 +150,27 @@ print("rho2: " + str(m * np.abs(((p/l) - np.multiply(np.multiply(g,rho2), sinthe
 print("rho3: " + str(m * np.abs(((p/l) - np.multiply(np.multiply(g,rho3), sintheta)) * (r / 2)) ** n))
 print("rho4: " + str(m * np.abs(((p/l) - np.multiply(np.multiply(g,rho4), sintheta)) * (r / 2)) ** n))
 
+
+fig, ax = plt.subplots()
+
+taurho = (m * np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n)
+taurho1 = (m * np.abs(((p/l) - np.multiply(np.multiply(g,rho1), sintheta)) * (r / 2)) ** n)
+taurho2 = (m * np.abs(((p/l) - np.multiply(np.multiply(g,rho2), sintheta)) * (r / 2)) ** n)
+taurho3 = (m * np.abs(((p/l) - np.multiply(np.multiply(g,rho3), sintheta)) * (r / 2)) ** n)
+taurho4 = (m * np.abs(((p/l) - np.multiply(np.multiply(g,rho4), sintheta)) * (r / 2)) ** n)
+
+plt.xlabel("Acceleration due to Gravity (m/s^2)")
+plt.ylabel("Shear Stress (Pa)")
+plt.title("One-way Sensitivity Analysis, Density (\u03C1)")
+ax.plot(g, taurho, linewidth=2.0, color='k', label='\u03C1ₒ')
+ax.plot(g, taurho1, linewidth=2.0, color='k', label='1.75\u03C1ₒ')
+ax.plot(g, taurho2, linewidth=2.0, color='k', label='2.25\u03C1ₒ')
+ax.plot(g, taurho3, linewidth=2.0, color='k', label='3.25\u03C1ₒ')
+ax.plot(g, taurho4, linewidth=2.0, color='k', label='0.25\u03C1ₒ')
+ 
+labelLines(ax.get_lines(), zorder=2.5)
+plt.grid()
+plt.show()
 
 
 '''
@@ -189,6 +211,7 @@ ax.plot(g, taup3, linewidth=2.0, color='k', label='3.25\u0394Pₒ')
 ax.plot(g, taup4, linewidth=2.0, color='k', label='0.25\u0394Pₒ')
 
 labelLines(ax.get_lines(), zorder=2.5)
+plt.grid()
 
 plt.show()
 
@@ -231,6 +254,7 @@ ax.plot(g, taul3, linewidth=2.0, color='k', label='3.25lₒ')
 ax.plot(g, taul4, linewidth=2.0, color='k', label='0.25lₒ')
 
 labelLines(ax.get_lines(), zorder=2.5)
+plt.grid()
 
 plt.show()
 
