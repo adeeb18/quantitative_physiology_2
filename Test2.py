@@ -69,12 +69,12 @@ for i, gi in enumerate(g):
     ax[0, 1].plot(gamma, tau_pl[i, :], label=f'g={gi:.2f} m/s^2')
     ax[1, 1].plot(gamma, (tau_pl[i, :] - tau_pl[0, :]) / tau_pl[0, :] * 100, label=f'g={gi:.2f} m/s^2')
 
-ax[1].xlabel('Shear rate (1/s)')
-ax[1].ylabel('Shear stress (Pa)')
-ax[1].set_xscale('log')
-ax[1].set_yscale('log')
-ax[1].set_title('Power law model')
-ax[1].legend()
+# ax[1].xlabel('Shear rate (1/s)')
+# ax[1].ylabel('Shear stress (Pa)')
+# ax[1].set_xscale('log')
+# ax[1].set_yscale('log')
+# ax[1].set_title('Power law model')
+# ax[1].legend()
 
 plt.show()
 

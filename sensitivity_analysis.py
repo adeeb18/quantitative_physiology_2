@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import math
+from labellines import labelLine, labelLines
 
 #Constants
 
@@ -38,10 +39,21 @@ ys = 0.0144
 
 #Variables
 
-# acceleration due to gravity (m/s^2)
-g = 9.8 / 1000000
+# acceleration due to Gravity (m/s^2)
+g_start =0
+g_step =.01
+g_stop = 9.8*4.5
+g=np.arange(g_start, g_stop, g_step)
 
-#M constant
+
+plt.rcParams["font.family"] = "Times New Roman"
+plt.rcParams.update({'font.size': 16})
+
+
+
+'''
+M constant Sensitivity Analysis
+'''
 m1 = m * 1.75
 m2 = m * 2.5
 m3 = m * 3.25
@@ -55,7 +67,31 @@ print("m2: " + str(m2 * np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta
 print("m3: " + str(m3 * np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n))
 print("m4: " + str(m4 * np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n))
 
+taum = (m * np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n)
+taum1 = (m1 * np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n)
+taum2 = (m2 * np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n)
+taum3 = (m3 * np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n)
+taum4 = (m4 * np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n)
 
+
+fig, ax = plt.subplots()
+
+plt.xlabel("Acceleration due to Gravity (m/s^2)")
+plt.ylabel("Shear Stress (Pa)")
+plt.title("One-way Sensitivity Analysis, constant m")
+ax.plot(g, taum, linewidth=2.0, color='k', label='mₒ')
+ax.plot(g, taum1, linewidth=2.0, color='k', label='1.75mₒ')
+ax.plot(g, taum2, linewidth=2.0, color='k', label='2.25mₒ')
+ax.plot(g, taum3, linewidth=2.0, color='k', label='3.25mₒ')
+ax.plot(g, taum4, linewidth=2.0, color='k', label='0.25mₒ')
+
+labelLines(ax.get_lines(), zorder=2.5)
+
+plt.show()
+
+'''
+N constant Sensitivity Analysis
+'''
 #N constant
 n1 = n * 1.75
 n2 = n * 2.5
@@ -70,6 +106,33 @@ print("n2: " + str(m * np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)
 print("n3: " + str(m * np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n3))
 print("n4: " + str(m * np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n4))
 
+
+taun = (m * np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n)
+taun1 = (m * np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n1)
+taun2 = (m * np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n2)
+taun3 = (m * np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n3)
+taun4 = (m * np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n4)
+
+
+fig, ax = plt.subplots()
+
+plt.xlabel("Acceleration due to Gravity (m/s^2)")
+plt.ylabel("Shear Stress (Pa)")
+plt.title("One-way Sensitivity Analysis, constant n")
+ax.plot(g, taun, linewidth=2.0, color='k', label='nₒ')
+ax.plot(g, taun1, linewidth=2.0, color='k', label='1.75nₒ')
+ax.plot(g, taun2, linewidth=2.0, color='k', label='2.25nₒ')
+ax.plot(g, taun3, linewidth=2.0, color='k', label='3.25nₒ')
+ax.plot(g, taun4, linewidth=2.0, color='k', label='0.25nₒ')
+
+labelLines(ax.get_lines(), zorder=2.5)
+
+plt.show()
+
+
+'''
+Density constant Sensitivity Analysis
+'''
 
 #Density
 #https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4590883/#:~:text=Existing%20data%20are%20conflicting%20and,%2FmL)%20%5B10%5D.
@@ -88,6 +151,10 @@ print("rho4: " + str(m * np.abs(((p/l) - np.multiply(np.multiply(g,rho4), sinthe
 
 
 
+'''
+Change in P constant Sensitivity Analysis
+'''
+
 #Pressure
 p1 = p * 1.75
 p2 = p * 2.5
@@ -103,6 +170,31 @@ print("p3: " + str(m * np.abs(((p3/l) - np.multiply(np.multiply(g,rho), sintheta
 print("p4: " + str(m * np.abs(((p4/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n))
 
 
+taup = (m * np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n)
+taup1 = (m * np.abs(((p1/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n)
+taup2 = (m * np.abs(((p2/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n)
+taup3 = (m * np.abs(((p3/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n)
+taup4 = (m * np.abs(((p4/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n)
+
+
+fig, ax = plt.subplots()
+
+plt.xlabel("Acceleration due to Gravity (m/s^2)")
+plt.ylabel("Shear Stress (Pa)")
+plt.title("One-way Sensitivity Analysis, Change in Presssure (\u0394P)")
+ax.plot(g, taup, linewidth=2.0, color='k', label='\u0394Pₒ')
+ax.plot(g, taup1, linewidth=2.0, color='k', label='1.75\u0394Pₒ')
+ax.plot(g, taup2, linewidth=2.0, color='k', label='2.25\u0394Pₒ')
+ax.plot(g, taup3, linewidth=2.0, color='k', label='3.25\u0394Pₒ')
+ax.plot(g, taup4, linewidth=2.0, color='k', label='0.25\u0394Pₒ')
+
+labelLines(ax.get_lines(), zorder=2.5)
+
+plt.show()
+
+'''
+L constant Sensitivity Analysis
+'''
 
 #Length
 l1 = l * 1.75
@@ -117,6 +209,32 @@ print("l1: " + str(m * np.abs(((p/l1) - np.multiply(np.multiply(g,rho), sintheta
 print("l2: " + str(m * np.abs(((p/l2) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n))
 print("l3: " + str(m * np.abs(((p/l3) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n))
 print("l4: " + str(m * np.abs(((p/l4) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n))
+
+
+
+taul = (m * np.abs(((p/l) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n)
+taul1 = (m * np.abs(((p/l1) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n)
+taul2 = (m * np.abs(((p/l2) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n)
+taul3 = (m * np.abs(((p/l3) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n)
+taul4 = (m * np.abs(((p/l4) - np.multiply(np.multiply(g,rho), sintheta)) * (r / 2)) ** n)
+
+
+fig, ax = plt.subplots()
+
+plt.xlabel("Acceleration due to Gravity (m/s^2)")
+plt.ylabel("Shear Stress (Pa)")
+plt.title("One-way Sensitivity Analysis, Length (l)")
+ax.plot(g, taul, linewidth=2.0, color='k', label='lₒ')
+ax.plot(g, taul1, linewidth=2.0, color='k', label='1.75lₒ')
+ax.plot(g, taul2, linewidth=2.0, color='k', label='2.25lₒ')
+ax.plot(g, taul3, linewidth=2.0, color='k', label='3.25lₒ')
+ax.plot(g, taul4, linewidth=2.0, color='k', label='0.25lₒ')
+
+labelLines(ax.get_lines(), zorder=2.5)
+
+plt.show()
+
+
 
 #Viscocity
 mu1 = mu * 1.75

@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import math
 
 #Constants
+plt.rcParams["font.family"] = "Times New Roman"
 
 # m constant for blood as a power law fluid (Pa*s^n / m^2)
 m = 0.01615
@@ -58,7 +59,7 @@ tau_nog = np.repeat(tau_nog, 4410)
 fig, ax = plt.subplots()
 plt.xlabel("Acceleration due to gravity (m/s^2)")
 plt.ylabel("Shear Stress (Pa)")
-plt.title("Variable radius")
+plt.title("Gravitational effect on shear stress")
 ax.plot(g, tau_PL, linewidth=2.0, color='r', label='Power Law Fluid (Shear Thinning)')
 ax.plot(g, tau_NW, linewidth=2.0, color='g', label='Newtonian Fluid')
 ax.plot(g, tau_BP, linewidth=2.0, color='b', label='Bingham Plastic Fluid')
@@ -66,7 +67,6 @@ ax.plot(g, tau_nog, linewidth=2.0, color='y')
 ax.legend()
 
 plt.show()
-
 
 # Coronary arteries length (m)
 l = .030 
